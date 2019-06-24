@@ -1,10 +1,8 @@
-================================
 Optical flow from two images
 ================================
 Kenta Tanaka & Eiji Watanabe
 
 
-================================
 Overview
 ================================
 Using two images as input, it outputs the result image of the optical flow and the calculated vector group as csv file.
@@ -12,7 +10,6 @@ You can choose Lucas-Kanade method or Gunnar-Farneback method.
 
 
 
-===========================
 Test environment
 ===========================
 OS: Ubuntu 14.04 or 16.04
@@ -20,7 +17,6 @@ Python: 2.7
 
 
 
-===========================
 Requirements
 ===========================
 * cv2
@@ -31,7 +27,6 @@ Requirements
 
 
 
-================================
 How to use
 ================================
 To calculate by the Lucas-Kanade method, execute as follows.
@@ -55,7 +50,6 @@ px1, py2, dx1, dy2
 
 
 
-================================
 Options
 ================================
 parser.add_argument('image1', type=str, help='Input image No1.')
@@ -69,7 +63,6 @@ parser.add_argument('--line', '-l', type=int, default=2, help='Width of vector l
 
 
 
-================================
 Parameter setting of Lucas-Kanade
 ================================
 To adjust the parameters of the Lucas-Kanade method, change the parameters after LucasKanade in config.yaml.
@@ -86,7 +79,6 @@ and it will extract many feature points.
 
 
 
-================================
 Parameter setting of Gunnar-Farneback
 ================================
 To adjust the parameters of Gunnar-Farneback method, change the parameter after Farneback in config.yaml.
@@ -108,7 +100,6 @@ Vectors less than or equal to the length specified here will not be saved or dra
 
 
 
-===========================
 Reference
 ===========================
 "http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_video/py_lucas_kanade/py_lucas_kan".

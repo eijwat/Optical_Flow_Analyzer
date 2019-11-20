@@ -1,0 +1,2 @@
+LucasKanade: {window_size: 50, quality_level: 0.3}
+Farneback: {window_size: 10, stride: 5, min_vec: 0.01}

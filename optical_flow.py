@@ -71,7 +71,7 @@ def farneback(file1, file2):
     frame2 = cv2.imread(file2)
     nxt = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
 
-    flow = cv2.calcOpticalFlowFarneback(prv, nxt, 0.5, 3,
+    flow = cv2.calcOpticalFlowFarneback(prv, nxt, None, 0.5, 3,
                                         conf['window_size'],
                                         3, 5, 1.1, 0)
     height, width = prv.shape

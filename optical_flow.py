@@ -17,7 +17,7 @@ parser.add_argument('--vector_scale', '-vs', type=float, default=1.0, help='Scal
 parser.add_argument('--size', '-s', type=int, default=5, help='Size of original point marker.')
 parser.add_argument('--line', '-l', type=int, default=2, help='Width of vector line.')
 args = parser.parse_args()
-config = yaml.load(open('config.yaml'))
+config = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)
 
 def lucas_kanade(file1, file2):
     conf = config['LucasKanade']

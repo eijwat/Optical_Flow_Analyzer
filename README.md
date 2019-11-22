@@ -50,10 +50,12 @@ px1, py2, dx1, dy2
 
 
 Sample commands for snake illusion:
- $ python optical_flow.py test_20y_0.jpg test_20y_1.jpg -s 0 -l 1 -cc yellow -lc red -s 2 -l 2 -vs 60.0
- $ python optical_flow.py test_20y_1.jpg test_20y_2.jpg -s 0 -l 1 -cc yellow -lc red -s 2 -l 2 -vs 60.0
- $ python optical_flow.py test_20y_0.jpg test_20y_1.jpg -s 0 -l 1 -cc yellow -lc red -s 2 -l 2 -vs 180.0
- $ python optical_flow.py test_20y_1.jpg test_20y_2.jpg -s 0 -l 1 -cc yellow -lc red -s 2 -l 2 -vs 180.0
+ $ python optical_flow.py test_20y_0.jpg test_20y_1.jpg -cc yellow -lc red -s 2 -l 2 -vs 60.0
+ $ python optical_flow.py test_20y_1.jpg test_20y_2.jpg -cc yellow -lc red -s 2 -l 2 -vs 60.0
+ $ python optical_flow.py test_20y_0.jpg test_20y_1.jpg -cc yellow -lc red -s 2 -l 2 -vs 90.0
+ $ python optical_flow.py test_20y_1.jpg test_20y_2.jpg -cc yellow -lc red -s 2 -l 2 -vs 90.0
+ $ python optical_flow.py test_20y_0.jpg test_20y_1.jpg -cc yellow -lc red -s 2 -l 2 -vs 180.0
+ $ python optical_flow.py test_20y_1.jpg test_20y_2.jpg -cc yellow -lc red -s 2 -l 2 -vs 180.0
 
 
 

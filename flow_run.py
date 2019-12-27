@@ -24,9 +24,7 @@ if __name__ == "__main__":
         os.makedirs(args.output_path+"/csv/")
 
     if args.method == 'lk':
-        conf = config['LucasKanade']
         lucas_kanade(args.image1, args.image2, args.output_path, conf, args.vector_scale,
             args.circle_size, args.line_color, args.line, args.circle_color)
     elif args.method == 'fb':
-        conf = config['Farneback']
         farneback(args.image1, args.image2)

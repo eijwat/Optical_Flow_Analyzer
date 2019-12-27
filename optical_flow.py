@@ -10,6 +10,7 @@ colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
 parser = argparse.ArgumentParser(description='Calculate optical flow.')
 parser.add_argument('image1', type=str, help='Input image No1.')
 parser.add_argument('image2', type=str, help='Input image No2.')
+parser.add_argument('--output_path', '-o', type=str, default='flow/', help='path to output directory')
 parser.add_argument('--method', '-m', type=str, default='lk', choices=['lk', 'fb'], help='Select a method.')
 parser.add_argument('--circle_color', '-cc', type=str, default='red', choices=colormap.keys(), help='Select a color for circle.')
 parser.add_argument('--line_color', '-lc', type=str, default='red', choices=colormap.keys(), help='Select a color for line.')
@@ -19,7 +20,7 @@ parser.add_argument('--line', '-l', type=int, default=2, help='Width of vector l
 args = parser.parse_args()
 config = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)
 
-def lucas_kanade(file1, file2):
+def lucas_kanade(file1, file2, output_path):
     conf = config['LucasKanade']
     # params for ShiTomasi corner detection
     feature_params = dict(maxCorners = 100,
@@ -57,9 +58,13 @@ def lucas_kanade(file1, file2):
         cv2.circle(img2, (c, d), args.size, colormap[args.circle_color], -1)
         data.append([c, d, dx, dy])
 
-    cv2.imwrite('vectors.png', mask)
-    cv2.imwrite('result.png', img2)
-    with open('data.csv', 'w') as f:
+    output_file = output_path + "/" + file1
+    # cv2.imwrite(output_file, mask)
+    cv2.imwrite(output_file, img2)
+
+    temp = img1.split(".")
+    output_file = output_path + "/csv/" + temp[0] +".csv"
+    with open(output_file, 'w') as f:
         writer = csv.writer(f, lineterminator='\n')
         writer.writerows(data)
 
@@ -95,7 +100,10 @@ def farneback(file1, file2):
         writer.writerows(data)
 
 if __name__ == "__main__":
+    if not os.path.exists(args.output_path+"/csv/"):
+        os.makedirs(args.output_path+"/csv/")
+
     if args.method == 'lk':
-        lucas_kanade(args.image1, args.image2)
+        lucas_kanade(args.image1, args.image2, args.output_path)
     elif args.method == 'fb':
         farneback(args.image1, args.image2)

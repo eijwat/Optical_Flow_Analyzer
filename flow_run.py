@@ -4,10 +4,9 @@ import os
 import yaml
 from optical_flow import lucas_kanade, farneback
 
-config = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)
 colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
     'yellow': [0, 255, 255], 'white': [255, 255, 255]}
-    
+
 parser = argparse.ArgumentParser(description='Calculate optical flow.')
 parser.add_argument('image1', type=str, help='Input image No1.')
 parser.add_argument('image2', type=str, help='Input image No2.')
@@ -30,4 +29,4 @@ if __name__ == "__main__":
             args.circle_size, args.line_color, args.line, args.circle_color)
     elif args.method == 'fb':
         conf = config['Farneback']
-        farneback(args.image1, args.image2, conf)
+        farneback(args.image1, args.image2)

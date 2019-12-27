@@ -7,10 +7,11 @@ import os
 import yaml
 
 
-
-def lucas_kanade(file1, file2, output_path, conf, 
+def lucas_kanade(file1, file2, output_path,
     vector_scale=60, point_size=0, line_color="red", line=1, circle_color="yellow"):
 
+    config = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)
+    conf = config['LucasKanade']
     colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
             'yellow': [0, 255, 255], 'white': [255, 255, 255]}
     # params for ShiTomasi corner detection
@@ -62,9 +63,11 @@ def lucas_kanade(file1, file2, output_path, conf,
         writer = csv.writer(f, lineterminator='\n')
         writer.writerows(data)
 
-def farneback(file1, file2, conf, vector_scale=1.0):
+def farneback(file1, file2, vector_scale=1.0):
     colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
     'yellow': [0, 255, 255], 'white': [255, 255, 255]}
+    config = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)
+    conf = config['Farneback']
 
     frame1 = cv2.imread(file1)
     prv = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)

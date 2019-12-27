@@ -8,7 +8,8 @@ import yaml
 import os
 
 def lucas_kanade(file1, file2, output_path,
-    vector_scale=60, point_size=2, line_color="red", line=2, circle_color="yellow"):
+    vector_scale=60, point_size=2, line_color="red", line=2, circle_color="yellow",
+    save = True):
 
     conf_path = os.path.dirname(os.path.abspath(__file__)) + "/config.yaml"
     if not os.path.exists(output_path+"/csv/"):
@@ -46,26 +47,30 @@ def lucas_kanade(file1, file2, output_path,
     for i, (new, old) in enumerate(zip(good_new, good_old)):
         a, b = new.ravel()
         c, d = old.ravel()
-        dx = vector_scale * (a - c)
-        dy = vector_scale * (b - d)
-        cv2.line(mask, (c, d), (int(c + dx), int(d + dy)), colormap[line_color], line)
-        cv2.line(img2, (c, d), (int(c + dx), int(d + dy)), colormap[line_color], line)
+        dx = a - c
+        dy = b - d
+        cv2.line(mask, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
+        cv2.line(img2, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
         cv2.circle(mask, (c, d), point_size, colormap[circle_color], -1)
         cv2.circle(img2, (c, d), point_size, colormap[circle_color], -1)
         data.append([c, d, dx, dy])
 
-    filename = file1.split("/")
-    filename = filename[len(filename)-1]
-    temp = filename.split(".")
+    if save:
+        filename = file1.split("/")
+        filename = filename[len(filename)-1]
+        temp = filename.split(".")
 
-    output_file = output_path + "/" + temp[0] + ".png"
-    print("saving", output_file)
-    # cv2.imwrite(output_file, mask)
-    cv2.imwrite(output_file, img2)    
-    output_file = output_path + "/csv/" + temp[0] +".csv"
-    with open(output_file, 'w') as f:
-        writer = csv.writer(f, lineterminator='\n')
-        writer.writerows(data)
+        output_file = output_path + "/" + temp[0] + ".png"
+        print("saving", output_file)
+        # cv2.imwrite(output_file, mask)
+        cv2.imwrite(output_file, img2)    
+        output_file = output_path + "/csv/" + temp[0] +".csv"
+        with open(output_file, 'w') as f:
+            writer = csv.writer(f, lineterminator='\n')
+            writer.writerows(data)
+
+    results = {"image":img2, "vectors":data}
+    return results
 
 def farneback(file1, file2, vector_scale=1.0):
     colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],

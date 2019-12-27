@@ -15,8 +15,8 @@ parser.add_argument('--method', '-m', type=str, default='lk', choices=['lk', 'fb
 parser.add_argument('--circle_color', '-cc', type=str, default='yellow', choices=colormap.keys(), help='Select a color for circle.')
 parser.add_argument('--line_color', '-lc', type=str, default='red', choices=colormap.keys(), help='Select a color for line.')
 parser.add_argument('--vector_scale', '-vs', type=float, default=60.0, help='Scale saving vector data.')
-parser.add_argument('--circle_size', '-s', type=int, default=0, help='Size of original point marker.')
-parser.add_argument('--line', '-l', type=int, default=1, help='Width of vector line.')
+parser.add_argument('--circle_size', '-s', type=int, default=2, help='Size of original point marker.')
+parser.add_argument('--line', '-l', type=int, default=2, help='Width of vector line.')
 args = parser.parse_args()
 
 if __name__ == "__main__":

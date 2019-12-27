@@ -8,7 +8,7 @@ import yaml
 import os
 
 def lucas_kanade(file1, file2, output_path,
-    vector_scale=60, point_size=0, line_color="red", line=1, circle_color="yellow"):
+    vector_scale=60, point_size=2, line_color="red", line=2, circle_color="yellow"):
 
     conf_path = os.path.dirname(os.path.abspath(__file__)) + "/config.yaml"
     if not os.path.exists(output_path+"/csv/"):

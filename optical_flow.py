@@ -5,12 +5,14 @@ import itertools
 import numpy as np
 import os
 import yaml
-
+import os
 
 def lucas_kanade(file1, file2, output_path,
     vector_scale=60, point_size=0, line_color="red", line=1, circle_color="yellow"):
 
-    config = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)
+    conf_path = os.path.dirname(os.path.abspath(__file__)) + "/config.yaml"
+
+    config = yaml.load(open(conf_path), Loader=yaml.FullLoader)
     conf = config['LucasKanade']
     colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
             'yellow': [0, 255, 255], 'white': [255, 255, 255]}

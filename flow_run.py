@@ -24,7 +24,7 @@ if __name__ == "__main__":
         os.makedirs(args.output_path+"/csv/")
 
     if args.method == 'lk':
-        lucas_kanade(args.image1, args.image2, args.output_path, conf, args.vector_scale,
+        lucas_kanade(args.image1, args.image2, args.output_path, args.vector_scale,
             args.circle_size, args.line_color, args.line, args.circle_color)
     elif args.method == 'fb':
         farneback(args.image1, args.image2)

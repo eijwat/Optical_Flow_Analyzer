@@ -1,6 +1,6 @@
 Optical flow from two images
 ================================
-Kenta Tanaka & Eiji Watanabe
+Kenta Tanaka & Eiji Watanabe modified by Lana S.
 
 
 Overview
@@ -24,6 +24,10 @@ Requirements
 * itertools
 * csv
 * argparse
+
+## Install
+
+`pip install -U PyYAML`
 
 
 

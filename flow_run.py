@@ -20,8 +20,6 @@ parser.add_argument('--line', '-l', type=int, default=1, help='Width of vector l
 args = parser.parse_args()
 
 if __name__ == "__main__":
-    if not os.path.exists(args.output_path+"/csv/"):
-        os.makedirs(args.output_path+"/csv/")
 
     if args.method == 'lk':
         lucas_kanade(args.image1, args.image2, args.output_path, args.vector_scale,

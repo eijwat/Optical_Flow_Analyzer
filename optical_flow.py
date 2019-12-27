@@ -1,9 +1,11 @@
-import numpy as np
-import cv2
-import yaml
-import itertools
-import csv
 import argparse
+import csv
+import cv2
+import itertools
+import numpy as np
+import os
+import yaml
+
 
 colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
             'yellow': [0, 255, 255], 'white': [255, 255, 255]}
@@ -58,11 +60,14 @@ def lucas_kanade(file1, file2, output_path):
         cv2.circle(img2, (c, d), args.size, colormap[args.circle_color], -1)
         data.append([c, d, dx, dy])
 
-    output_file = output_path + "/" + file1
-    # cv2.imwrite(output_file, mask)
-    cv2.imwrite(output_file, img2)
+    filename = file1.split("/")
+    filename = filename[len(filename)-1]
+    temp = filename.split(".")
 
-    temp = img1.split(".")
+    output_file = output_path + "/" + temp[0] + ".png"
+    print("saving", output_file)
+    # cv2.imwrite(output_file, mask)
+    cv2.imwrite(output_file, img2)    
     output_file = output_path + "/csv/" + temp[0] +".csv"
     with open(output_file, 'w') as f:
         writer = csv.writer(f, lineterminator='\n')

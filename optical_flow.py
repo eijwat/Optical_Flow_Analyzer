@@ -7,23 +7,12 @@ import os
 import yaml
 
 
-colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
-            'yellow': [0, 255, 255], 'white': [255, 255, 255]}
-parser = argparse.ArgumentParser(description='Calculate optical flow.')
-parser.add_argument('image1', type=str, help='Input image No1.')
-parser.add_argument('image2', type=str, help='Input image No2.')
-parser.add_argument('--output_path', '-o', type=str, default='flow/', help='path to output directory')
-parser.add_argument('--method', '-m', type=str, default='lk', choices=['lk', 'fb'], help='Select a method.')
-parser.add_argument('--circle_color', '-cc', type=str, default='red', choices=colormap.keys(), help='Select a color for circle.')
-parser.add_argument('--line_color', '-lc', type=str, default='red', choices=colormap.keys(), help='Select a color for line.')
-parser.add_argument('--vector_scale', '-vs', type=float, default=1.0, help='Scale saving vector data.')
-parser.add_argument('--size', '-s', type=int, default=5, help='Size of original point marker.')
-parser.add_argument('--line', '-l', type=int, default=2, help='Width of vector line.')
-args = parser.parse_args()
-config = yaml.load(open('config.yaml'), Loader=yaml.FullLoader)
 
-def lucas_kanade(file1, file2, output_path):
-    conf = config['LucasKanade']
+def lucas_kanade(file1, file2, output_path, conf, 
+    vector_scale=60, point_size=0, line_color="red", line=1, circle_color="yellow"):
+
+    colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
+            'yellow': [0, 255, 255], 'white': [255, 255, 255]}
     # params for ShiTomasi corner detection
     feature_params = dict(maxCorners = 100,
                           qualityLevel = conf['quality_level'],
@@ -52,12 +41,12 @@ def lucas_kanade(file1, file2, output_path):
     for i, (new, old) in enumerate(zip(good_new, good_old)):
         a, b = new.ravel()
         c, d = old.ravel()
-        dx = args.vector_scale * (a - c)
-        dy = args.vector_scale * (b - d)
-        cv2.line(mask, (c, d), (int(c + dx), int(d + dy)), colormap[args.line_color], args.line)
-        cv2.line(img2, (c, d), (int(c + dx), int(d + dy)), colormap[args.line_color], args.line)
-        cv2.circle(mask, (c, d), args.size, colormap[args.circle_color], -1)
-        cv2.circle(img2, (c, d), args.size, colormap[args.circle_color], -1)
+        dx = vector_scale * (a - c)
+        dy = vector_scale * (b - d)
+        cv2.line(mask, (c, d), (int(c + dx), int(d + dy)), colormap[line_color], line)
+        cv2.line(img2, (c, d), (int(c + dx), int(d + dy)), colormap[line_color], line)
+        cv2.circle(mask, (c, d), point_size, colormap[circle_color], -1)
+        cv2.circle(img2, (c, d), point_size, colormap[circle_color], -1)
         data.append([c, d, dx, dy])
 
     filename = file1.split("/")
@@ -73,8 +62,10 @@ def lucas_kanade(file1, file2, output_path):
         writer = csv.writer(f, lineterminator='\n')
         writer.writerows(data)
 
-def farneback(file1, file2):
-    conf = config['Farneback']
+def farneback(file1, file2, conf, vector_scale=1.0):
+    colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
+    'yellow': [0, 255, 255], 'white': [255, 255, 255]}
+
     frame1 = cv2.imread(file1)
     prv = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
     mask = np.zeros_like(frame1)
@@ -103,12 +94,3 @@ def farneback(file1, file2):
     with open('data.csv', 'w') as f:
         writer = csv.writer(f, lineterminator='\n')
         writer.writerows(data)
-
-if __name__ == "__main__":
-    if not os.path.exists(args.output_path+"/csv/"):
-        os.makedirs(args.output_path+"/csv/")
-
-    if args.method == 'lk':
-        lucas_kanade(args.image1, args.image2, args.output_path)
-    elif args.method == 'fb':
-        farneback(args.image1, args.image2)

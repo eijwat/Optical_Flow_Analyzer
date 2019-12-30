@@ -3,13 +3,14 @@ import csv
 import cv2
 import itertools
 import numpy as np
-import os
 import yaml
 import os
 
 def lucas_kanade(file1, file2, output_path,
     vector_scale=60, point_size=2, line_color="red", line=2, circle_color="yellow",
     save = True):
+
+    print("compare ", file1, file2)
 
     conf_path = os.path.dirname(os.path.abspath(__file__)) + "/config.yaml"
     if not os.path.exists(output_path+"/csv/"):

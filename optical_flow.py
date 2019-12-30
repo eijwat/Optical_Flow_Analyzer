@@ -6,6 +6,14 @@ import numpy as np
 import yaml
 import os
 
+def draw_tracks(img, x, y, dx, dy, vector_scale=60, point_size=2, line_color="red", line=2, circle_color="yellow"):
+    # draw the tracks
+    #cv2.line(mask, (x, y), (int(x + vector_scale*dx), int(y + vector_scale*dy)), colormap[line_color], line)
+    cv2.line(img, (x, y), (int(x + vector_scale*dx), int(y + vector_scale*dy)), line_color, line)
+    #cv2.circle(mask, (x, y), point_size, colormap[circle_color], -1)
+    cv2.circle(img, (x, y), point_size, circle_color, -1)
+
+
 def lucas_kanade(file1, file2, output_path,
     vector_scale=60, point_size=2, line_color="red", line=2, circle_color="yellow",
     save = True):
@@ -50,10 +58,12 @@ def lucas_kanade(file1, file2, output_path,
         c, d = old.ravel()
         dx = a - c
         dy = b - d
-        cv2.line(mask, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
-        cv2.line(img2, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
-        cv2.circle(mask, (c, d), point_size, colormap[circle_color], -1)
-        cv2.circle(img2, (c, d), point_size, colormap[circle_color], -1)
+        # cv2.line(mask, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
+        # cv2.line(img2, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
+        # cv2.circle(mask, (c, d), point_size, colormap[circle_color], -1)
+        # cv2.circle(img2, (c, d), point_size, colormap[circle_color], -1)
+        if save:
+            draw_tracks(img2, c, d, dx, dy, vector_scale, point_size, colormap[line_color], colormap[circle_color])
         data.append([c, d, dx, dy])
 
     if save:

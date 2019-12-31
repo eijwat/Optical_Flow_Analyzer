@@ -7,11 +7,13 @@ import yaml
 import os
 
 def draw_tracks(img, x, y, dx, dy, vector_scale=60, point_size=2, line_color="red", line=2, circle_color="yellow"):
+    colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
+            'yellow': [0, 255, 255], 'white': [255, 255, 255]}
     # draw the tracks
     #cv2.line(mask, (x, y), (int(x + vector_scale*dx), int(y + vector_scale*dy)), colormap[line_color], line)
-    cv2.line(img, (x, y), (int(x + vector_scale*dx), int(y + vector_scale*dy)), line_color, line)
+    cv2.line(img, (x, y), (int(x + vector_scale*dx), int(y + vector_scale*dy)), colormap[line_color], line)
     #cv2.circle(mask, (x, y), point_size, colormap[circle_color], -1)
-    cv2.circle(img, (x, y), point_size, circle_color, -1)
+    cv2.circle(img, (x, y), point_size, colormap[circle_color], -1)
 
 
 def lucas_kanade(file1, file2, output_path,
@@ -26,8 +28,8 @@ def lucas_kanade(file1, file2, output_path,
 
     config = yaml.load(open(conf_path), Loader=yaml.FullLoader)
     conf = config['LucasKanade']
-    colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
-            'yellow': [0, 255, 255], 'white': [255, 255, 255]}
+    # colormap = {'blue': [255, 0, 0], 'green': [0, 255, 0], 'red': [0, 0, 255],
+    #        'yellow': [0, 255, 255], 'white': [255, 255, 255]}
     # params for ShiTomasi corner detection
     feature_params = dict(maxCorners = 100,
                           qualityLevel = conf['quality_level'],
@@ -63,7 +65,7 @@ def lucas_kanade(file1, file2, output_path,
         # cv2.circle(mask, (c, d), point_size, colormap[circle_color], -1)
         # cv2.circle(img2, (c, d), point_size, colormap[circle_color], -1)
         if save:
-            draw_tracks(img2, c, d, dx, dy, vector_scale, point_size, colormap[line_color], colormap[circle_color])
+            draw_tracks(img2, c, d, dx, dy, vector_scale, point_size, line_color, circle_color)
         data.append([c, d, dx, dy])
 
     if save:

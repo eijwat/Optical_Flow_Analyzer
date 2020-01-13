@@ -48,25 +48,27 @@ def lucas_kanade(file1, file2, output_path,
     img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
     p0 = cv2.goodFeaturesToTrack(img1_gray, mask = None, **feature_params)
     mask = np.zeros_like(img1)
-    p1, st, err = cv2.calcOpticalFlowPyrLK(img1_gray, img2_gray, p0, None, **lk_params)
+    p1 = p0
+    if p0:
+        p1, st, err = cv2.calcOpticalFlowPyrLK(img1_gray, img2_gray, p0, None, **lk_params)
 
-    good_new = p1[st==1]
-    good_old = p0[st==1]
+        good_new = p1[st==1]
+        good_old = p0[st==1]
 
-    # draw the tracks
-    data = []
-    for i, (new, old) in enumerate(zip(good_new, good_old)):
-        a, b = new.ravel()
-        c, d = old.ravel()
-        dx = a - c
-        dy = b - d
-        # cv2.line(mask, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
-        # cv2.line(img2, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
-        # cv2.circle(mask, (c, d), point_size, colormap[circle_color], -1)
-        # cv2.circle(img2, (c, d), point_size, colormap[circle_color], -1)
-        if save:
-            draw_tracks(img2, c, d, dx, dy, vector_scale, circle_size, circle_color, line_width, line_color)
-        data.append([c, d, dx, dy])
+        # draw the tracks
+        data = []
+        for i, (new, old) in enumerate(zip(good_new, good_old)):
+            a, b = new.ravel()
+            c, d = old.ravel()
+            dx = a - c
+            dy = b - d
+            # cv2.line(mask, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
+            # cv2.line(img2, (c, d), (int(c + vector_scale*dx), int(d + vector_scale*dy)), colormap[line_color], line)
+            # cv2.circle(mask, (c, d), point_size, colormap[circle_color], -1)
+            # cv2.circle(img2, (c, d), point_size, colormap[circle_color], -1)
+            if save:
+                draw_tracks(img2, c, d, dx, dy, vector_scale, circle_size, circle_color, line_width, line_color)
+            data.append([c, d, dx, dy])
 
     if save:
         filename = file1.split("/")

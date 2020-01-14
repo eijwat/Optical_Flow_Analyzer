@@ -48,15 +48,17 @@ def lucas_kanade(file1, file2, output_path,
     img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
     p0 = cv2.goodFeaturesToTrack(img1_gray, mask = None, **feature_params)
     mask = np.zeros_like(img1)
-    p1 = p0
-    if p0:
+    data = []
+    if p0 is None:
+        pass
+    else:
         p1, st, err = cv2.calcOpticalFlowPyrLK(img1_gray, img2_gray, p0, None, **lk_params)
 
         good_new = p1[st==1]
         good_old = p0[st==1]
 
         # draw the tracks
-        data = []
+        
         for i, (new, old) in enumerate(zip(good_new, good_old)):
             a, b = new.ravel()
             c, d = old.ravel()
